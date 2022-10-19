@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'command.dart';
+import 'base_command.dart';
 
 /// FileName delete
 ///
@@ -9,20 +9,29 @@ import 'command.dart';
 ///
 /// @Description: delete命令
 
-class DeleteCommand extends Command {
+class DeleteCommand extends BaseCommand {
   factory DeleteCommand() => _instance;
 
   DeleteCommand._internal();
 
   static late final DeleteCommand _instance = DeleteCommand._internal();
 
-  // 命令
-  final String command = "pubspec.lock";
+  // 文件路径
+  final String path = "pubspec.lock";
+
+  @override
+  String get description => "run delete $path";
+
+  @override
+  String get name => "delete";
+
+  @override
+  List<String> get aliases => ["d"];
 
   @override
   Future<void> run([String? commands]) {
     print("=======执行删除pubspec.lock命令===============");
-    return delete(commands ?? command);
+    return delete(commands ?? path);
   }
 
   /// 删除文件

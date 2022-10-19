@@ -1,9 +1,9 @@
-name: command_line
+name: command
 description: A new Flutter package.
 version: 0.0.1
 homepage:
-#executables:
-#  command_line_extension:
+executables:
+  command:
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

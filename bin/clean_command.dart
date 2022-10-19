@@ -1,4 +1,4 @@
-import 'command.dart';
+import 'base_command.dart';
 
 /// FileName clean
 ///
@@ -6,7 +6,7 @@ import 'command.dart';
 /// @Date 2022/10/18
 ///
 /// @Description: clean命令
-class CleanCommand extends Command {
+class CleanCommand extends BaseCommand {
   factory CleanCommand() => _instance;
 
   CleanCommand._internal();
@@ -14,9 +14,16 @@ class CleanCommand extends Command {
   static late final CleanCommand _instance = CleanCommand._internal();
 
   // 命令
-  final String command = """
-    flutter clean
-  """;
+  final String command = "flutter clean";
+
+  @override
+  String get description => "run $command";
+
+  @override
+  String get name => "clean";
+
+  @override
+  List<String> get aliases => ["c"];
 
   @override
   Future<void> run([String? commands]) {
