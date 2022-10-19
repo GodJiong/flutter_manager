@@ -11,13 +11,13 @@ Global options:
 for example：
 
 ```
-dart run command clean
+dart run power_command clean
 ```
 
 if you use fvm, such as
 
 ```
-fvm dart run command clean
+fvm dart run power_command clean
 ```
 
 
