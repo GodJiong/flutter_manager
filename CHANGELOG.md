@@ -1,3 +1,3 @@
-## 0.0.1
+# 0.0.1
 
-* TODO: Describe initial release.
+* support `flutter clean`, `flutter pub get` , delete `pubspec.lock`file, and `pure` which run delete clean and pub get in order 
