@@ -1,23 +1,39 @@
 A useful command line tool for Dart, which supports clean, pub get, pure etc.
 
-Take it easy!
+## Requirements
 
-Usage: dart run command <command> [arguments]
+The latest release of `power_command` requires Dart SDK `2.12.0` or later.
 
+## Installation
+
+`power_command` is not meant to be used as a dependency. Instead, it should be ["activated"](https://www.dartlang.org/tools/pub/cmd/pub-global#activating-a-package).
+
+```
+$ pub global activate power_command
+```
+
+Learn more about activating and using packages [here](https://www.dartlang.org/tools/pub/cmd/pub-global).
+
+## Usage
+
+Standard usage is as follows:
+
+```
+power_command <command> [arguments]
+```
+
+You can run "power_command help" get more details.
+
+```
 Global options:
 -h, --help    Print this usage information.
 
+Available commands:
+  clean    run flutter clean
+  delete   run delete pubspec.lock
+  pub      run flutter pub get (note: this is a parent command)
+  pure     run delete clean and pub get in order
 
-for example：
+Run "power_command help <command>" for more information about a command.
 
 ```
-dart run power_command clean
-```
-
-if you use fvm, such as
-
-```
-fvm dart run power_command clean
-```
-
-

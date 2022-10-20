@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
-/// FileName command
+/// FileName base_command
 ///
 /// @Author wangjiong
 /// @Date 2022/10/18
@@ -18,8 +18,8 @@ abstract class BaseCommand extends Command {
       return;
     }
 
-    final tmp =
-        File("${Directory.systemTemp.path}/${DateTime.now().millisecondsSinceEpoch}.sh");
+    final tmp = File(
+        "${Directory.systemTemp.path}/${DateTime.now().millisecondsSinceEpoch}.sh");
 
     tmp.writeAsStringSync(commands);
 

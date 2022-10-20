@@ -16,7 +16,8 @@ class PubGetCommand extends BaseCommand {
   static late final PubGetCommand _instance = PubGetCommand._internal();
 
   @override
-  String get description => "run flutter pub get (note: this is a parent command)";
+  String get description =>
+      "run flutter pub get (note: this is a parent command)";
 
   @override
   String get name => "pub";

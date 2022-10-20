@@ -11,7 +11,7 @@ import 'commands/export_command.dart';
 ///
 /// @Description: run脚本入口
 void main(List<String> args) async {
-  final runner = CommandRunner('dart run power_command', 'command extension')
+  final runner = CommandRunner('power_command', 'A useful command line tool for Dart')
     ..addCommand(DeleteCommand())
     ..addCommand(CleanCommand())
     ..addCommand(PubGetCommand())
