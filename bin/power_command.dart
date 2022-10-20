@@ -9,7 +9,7 @@ import 'commands/export_command.dart';
 /// @Author wangjiong
 /// @Date 2022/10/17
 ///
-/// @Description: run脚本入口
+/// @Description: main入口
 void main(List<String> args) async {
   final runner =
       CommandRunner('power_command', 'A useful command line tool for Dart')

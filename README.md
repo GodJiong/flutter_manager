@@ -9,10 +9,14 @@ The latest release of `power_command` requires Dart SDK `2.12.0` or later.
 `power_command` is not meant to be used as a dependency. Instead, it should be ["activated"](https://www.dartlang.org/tools/pub/cmd/pub-global#activating-a-package).
 
 ```
-$ pub global activate power_command
+$ dart pub global activate power_command
 ```
 
 Learn more about activating and using packages [here](https://www.dartlang.org/tools/pub/cmd/pub-global).
+
+## Update
+
+The same as Installation
 
 ## Usage
 
@@ -22,7 +26,7 @@ Standard usage is as follows:
 power_command <command> [arguments]
 ```
 
-You can run "power_command help" get more details.
+You can run `power_command help` get more details.
 
 ```
 Global options:
