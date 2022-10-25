@@ -18,6 +18,7 @@ class PureCommand extends BaseCommand {
     await DeleteCommand().run();
     await CleanCommand().run();
     await GetCommand().run();
+    return super.run();
   }
 
   @override

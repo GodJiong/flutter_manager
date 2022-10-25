@@ -9,14 +9,31 @@ import 'package:args/command_runner.dart';
 ///
 /// @Description: command基类
 abstract class BaseCommand extends Command {
+  BaseCommand() {
+    // add format flag
+    argParser.addFlag("format",
+        abbr: "f",
+        defaultsTo: false,
+        negatable: false,
+        help: "format all code");
+  }
+
   /// 执行sh脚本
   @override
   Future<void> run([String? commands]) async {
-    print("========run $commands==========");
+    // parse flag and option
+    if (argResults?["format"] == true) {
+      commands = """
+    ${commands ?? ""}
+    dart format .
+    """;
+    }
 
-    if (commands == null || commands.isEmpty) {
+    if (commands == null || commands.trim().isEmpty) {
       return;
     }
+
+    print("========run $commands==========");
 
     final tmp = File(
         "${Directory.systemTemp.path}/${DateTime.now().millisecondsSinceEpoch}.sh");

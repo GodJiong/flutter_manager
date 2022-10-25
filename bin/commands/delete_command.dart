@@ -31,7 +31,8 @@ class DeleteCommand extends BaseCommand {
   @override
   Future<void> run([String? commands]) {
     print("=======执行删除pubspec.lock命令===============");
-    return delete(commands ?? path);
+    delete(commands ?? path);
+    return super.run();
   }
 
   /// 删除文件
