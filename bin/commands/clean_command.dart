@@ -5,7 +5,7 @@ import 'base_command.dart';
 /// @Author wangjiong
 /// @Date 2022/10/18
 ///
-/// @Description: clean命令
+/// @Description: clean command
 class CleanCommand extends BaseCommand {
   factory CleanCommand() => _instance;
 
@@ -13,7 +13,6 @@ class CleanCommand extends BaseCommand {
 
   static late final CleanCommand _instance = CleanCommand._internal();
 
-  // 命令
   final String command = "flutter clean";
 
   @override

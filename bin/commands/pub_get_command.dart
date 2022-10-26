@@ -5,7 +5,7 @@ import 'base_command.dart';
 /// @Author wangjiong
 /// @Date 2022/10/18
 ///
-/// @Description: pub get命令
+/// @Description: pub get command
 class PubGetCommand extends BaseCommand {
   factory PubGetCommand() => _instance;
 
@@ -30,7 +30,6 @@ class GetCommand extends BaseCommand {
 
   static late final GetCommand _instance = GetCommand._internal();
 
-  // 命令
   final String command = "flutter pub get";
 
   @override

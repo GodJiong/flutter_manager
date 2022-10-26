@@ -13,6 +13,7 @@ import 'commands/export_command.dart';
 void main(List<String> args) async {
   final runner =
       CommandRunner('power_command', 'A useful command line tool for Dart')
+        ..addCommand(FormatCommand())
         ..addCommand(CustomCommand())
         ..addCommand(DeleteCommand())
         ..addCommand(CleanCommand())

@@ -7,7 +7,7 @@ import 'package:args/command_runner.dart';
 /// @Author wangjiong
 /// @Date 2022/10/18
 ///
-/// @Description: command基类
+/// @Description: command base
 abstract class BaseCommand extends Command {
   BaseCommand() {
     // add format flag
@@ -18,7 +18,7 @@ abstract class BaseCommand extends Command {
         help: "format all code");
   }
 
-  /// 执行sh脚本
+  /// run sh script
   @override
   Future<void> run([String? commands]) async {
     // parse flag and option

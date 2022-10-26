@@ -7,7 +7,7 @@ import 'base_command.dart';
 /// @Author wangjiong
 /// @Date 2022/10/18
 ///
-/// @Description: delete命令
+/// @Description: delete command
 
 class DeleteCommand extends BaseCommand {
   factory DeleteCommand() => _instance;
@@ -16,7 +16,7 @@ class DeleteCommand extends BaseCommand {
 
   static late final DeleteCommand _instance = DeleteCommand._internal();
 
-  // 文件路径
+  // default file path
   final String path = "pubspec.lock";
 
   @override
@@ -30,12 +30,12 @@ class DeleteCommand extends BaseCommand {
 
   @override
   Future<void> run([String? commands]) {
-    print("=======执行删除pubspec.lock命令===============");
+    print("=======run $name pubspec.lock===============");
     delete(commands ?? path);
     return super.run();
   }
 
-  /// 删除文件
+  /// delete file
   Future<void> delete(String path) async {
     final file = File(path);
     if (!file.existsSync()) {

@@ -5,7 +5,7 @@ import 'export_command.dart';
 /// @Author wangjiong
 /// @Date 2022/10/18
 ///
-/// @Description: clean命令
+/// @Description: clean command
 class PureCommand extends BaseCommand {
   factory PureCommand() => _instance;
 
