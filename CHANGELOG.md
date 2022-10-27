@@ -1,3 +1,17 @@
+# 0.0.2+2
+
+* refactor `power_command custom --command` command to `power_command custom [arguments]`
+
+  For Example:
+
+  `power_command custom flutter pub get` which will run `flutter pub get`
+
+* support to delete files or folder.
+
+  For Example:
+
+  print `power_command delete pubspec.lock` which will run `delete` command to delete `pubspec.lock`
+
 # 0.0.2+1
 
 * add custom command and format command, you can custom command like `power_command custom --command="flutter pub get"`
