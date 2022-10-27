@@ -15,11 +15,11 @@ class CustomCommand extends BaseCommand {
       : _name = name,
         _aliases = aliases,
         _command = command {
-    argParser..addOption("command", abbr: "c", help: "add custom command");
+    argParser..addOption("command", abbr: "c", help: "add a custom command");
   }
 
   @override
-  String get description => "run $name";
+  String get description => "run a custom command";
 
   @override
   String get name => _name ?? "custom";

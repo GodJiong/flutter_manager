@@ -22,7 +22,7 @@ class PureCommand extends BaseCommand {
   }
 
   @override
-  String get description => "run delete clean and pub get in order";
+  String get description => "run delete,clean and pub get in order";
 
   @override
   String get name => "pure";

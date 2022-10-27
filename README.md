@@ -34,7 +34,9 @@ Global options:
 
 Available commands:
   clean    run flutter clean
+  custom   run custom
   delete   run delete pubspec.lock
+  format   run flutter format .
   pub      run flutter pub get (note: this is a parent command)
   pure     run delete clean and pub get in order
 
