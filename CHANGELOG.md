@@ -1,3 +1,11 @@
+# 0.0.3
+
+* support run a script
+
+  For Example:
+
+  `power_command custom ~/currentActivity.sh`
+
 # 0.0.2+2
 
 * refactor `power_command custom --command` command to `power_command custom [arguments]`
