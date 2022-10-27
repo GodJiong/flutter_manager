@@ -20,7 +20,7 @@ class DeleteCommand extends BaseCommand {
   static String _DEFAULT_PATH = "pubspec.lock";
 
   @override
-  String get description => "run delete file";
+  String get description => "run delete file, the default is pubspec.lock";
 
   @override
   String get name => "delete";
