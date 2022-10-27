@@ -17,10 +17,10 @@ class DeleteCommand extends BaseCommand {
   static late final DeleteCommand _instance = DeleteCommand._internal();
 
   // default file path
-  final String path = "pubspec.lock";
+  static String _DEFAULT_PATH = "pubspec.lock";
 
   @override
-  String get description => "run delete $path";
+  String get description => "run delete file";
 
   @override
   String get name => "delete";
@@ -30,17 +30,31 @@ class DeleteCommand extends BaseCommand {
 
   @override
   Future<void> run([String? commands]) {
-    print("=======run $name pubspec.lock===============");
-    delete(commands ?? path);
+    final paths = argResults?.rest;
+    if (paths?.isEmpty == true) {
+      final path = commands ?? _DEFAULT_PATH;
+      print("========$name $path===============");
+      delete(path);
+    } else {
+      paths?.forEach((path) {
+        print("========$name $path===============");
+        delete(path);
+      });
+    }
     return super.run();
   }
 
   /// delete file
   Future<void> delete(String path) async {
-    final file = File(path);
-    if (!file.existsSync()) {
-      return;
+    FileSystemEntity? fileEntity;
+    if (await FileSystemEntity.isFile(path)) {
+      fileEntity = File(path);
+    } else if (await FileSystemEntity.isDirectory(path)) {
+      fileEntity = Directory(path);
     }
-    file.deleteSync(recursive: true);
+
+    if (fileEntity?.existsSync() == true) {
+      fileEntity?.deleteSync(recursive: true);
+    }
   }
 }
