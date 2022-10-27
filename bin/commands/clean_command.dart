@@ -13,10 +13,10 @@ class CleanCommand extends BaseCommand {
 
   static late final CleanCommand _instance = CleanCommand._internal();
 
-  final String command = "flutter clean";
+  final String _DEFAULT_COMMAND = "flutter clean";
 
   @override
-  String get description => "run $command";
+  String get description => "run $_DEFAULT_COMMAND";
 
   @override
   String get name => "clean";
@@ -26,6 +26,6 @@ class CleanCommand extends BaseCommand {
 
   @override
   Future<void> run([String? commands]) {
-    return super.run(commands ?? command);
+    return super.run(commands ?? _DEFAULT_COMMAND);
   }
 }

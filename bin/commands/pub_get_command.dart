@@ -30,16 +30,16 @@ class GetCommand extends BaseCommand {
 
   static late final GetCommand _instance = GetCommand._internal();
 
-  final String command = "flutter pub get";
+  final String _DEFAULT_COMMAND = "flutter pub get";
 
   @override
-  String get description => "run $command";
+  String get description => "run $_DEFAULT_COMMAND";
 
   @override
   String get name => "get";
 
   @override
   Future<void> run([String? commands]) {
-    return super.run(commands ?? command);
+    return super.run(commands ?? _DEFAULT_COMMAND);
   }
 }

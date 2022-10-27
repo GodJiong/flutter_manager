@@ -34,18 +34,18 @@ class DeleteCommand extends BaseCommand {
     if (paths?.isEmpty == true) {
       final path = commands ?? _DEFAULT_PATH;
       print("========$name $path===============");
-      delete(path);
+      _delete(path);
     } else {
       paths?.forEach((path) {
         print("========$name $path===============");
-        delete(path);
+        _delete(path);
       });
     }
     return super.run();
   }
 
   /// delete file
-  Future<void> delete(String path) async {
+  Future<void> _delete(String path) async {
     FileSystemEntity? fileEntity;
     if (await FileSystemEntity.isFile(path)) {
       fileEntity = File(path);
