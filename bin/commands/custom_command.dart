@@ -14,9 +14,7 @@ class CustomCommand extends BaseCommand {
   CustomCommand({String? name, List<String>? aliases, String? command})
       : _name = name,
         _aliases = aliases,
-        _command = command {
-    argParser..addOption("command", abbr: "c", help: "add a custom command");
-  }
+        _command = command;
 
   @override
   String get description => "run a custom command";
@@ -29,6 +27,6 @@ class CustomCommand extends BaseCommand {
 
   @override
   Future<void> run([String? commands]) {
-    return super.run(commands ?? _command ?? argResults?["command"]);
+    return super.run(commands ?? _command ?? argResults?.rest.join(" "));
   }
 }

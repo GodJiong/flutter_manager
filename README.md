@@ -34,11 +34,11 @@ Global options:
 
 Available commands:
   clean    run flutter clean
-  custom   run custom
+  custom   run a custom command
   delete   run delete pubspec.lock
   format   run flutter format .
   pub      run flutter pub get (note: this is a parent command)
-  pure     run delete clean and pub get in order
+  pure     run delete,clean and pub get in order
 
 Run "power_command help <command>" for more information about a command.
 
