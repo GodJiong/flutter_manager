@@ -1,4 +1,4 @@
-A useful command line tool for Dart, which supports clean, pub get, pure etc.
+A useful command line tool for Dart, which support common flutter commands, custom command etc.
 
 ## Requirements
 
