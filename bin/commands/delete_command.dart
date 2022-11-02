@@ -31,15 +31,15 @@ class DeleteCommand extends BaseCommand {
   @override
   Future<void> run([String? commands]) {
     final paths = argResults?.rest;
-    if (paths?.isEmpty == true) {
-      final path = commands ?? _DEFAULT_PATH;
-      print("========$name $path===============");
-      _delete(path);
-    } else {
+    if (paths?.isNotEmpty == true) {
       paths?.forEach((path) {
         print("========$name $path===============");
         _delete(path);
       });
+    } else {
+      final path = commands ?? _DEFAULT_PATH;
+      print("========$name $path===============");
+      _delete(path);
     }
     return super.run();
   }
