@@ -5,6 +5,7 @@ export 'delete_command.dart';
 export 'format_command.dart';
 export 'pub_get_command.dart';
 export 'pure_command.dart';
+export 'source_command.dart';
 
 /// FileName export_command
 ///

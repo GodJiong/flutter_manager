@@ -12,4 +12,6 @@ dependencies:
   #Parses raw command-line arguments into a set of options and values.
   args: ^2.3.1
   path: ^1.8.2
+  yaml: ^3.1.1
+  yaml_writer: ^1.0.2
 
