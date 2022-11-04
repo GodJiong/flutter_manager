@@ -95,10 +95,12 @@ class BuildCommand extends BaseCommand {
     buildGlobalYaml(global, unique, yaml);
 
     // 执行单一配置
-    buildUniqueYaml(yaml, unique, pubFile);
+    bool hasUniqueActive = buildUniqueYaml(yaml, unique, pubFile);
 
     // 执行`power_command pure` 拉取最新的包依赖
-    await PureCommand().run();
+    if (hasUniqueActive) {
+      await PureCommand().run();
+    }
     stdout.writeln("===========源码配置结束===============");
     return super.run(commands);
   }
@@ -156,7 +158,7 @@ class BuildCommand extends BaseCommand {
   }
 
   /// 执行单一配置
-  void buildUniqueYaml(Map yaml, Map unique, File pubFile) {
+  bool buildUniqueYaml(Map yaml, Map unique, File pubFile) {
     // loadYaml()加载返回的子集也是 unmodifiable Map
     Map dependencies = Map.of(yaml['dependencies']);
     // 标记当前module是否用到了激活的unique配置
@@ -173,12 +175,13 @@ class BuildCommand extends BaseCommand {
 
     // 不存在dependencies变化则退出
     if (!hasUniqueActive) {
-      return;
+      return false;
     }
     // 更新dependencies节点
     yaml["dependencies"] = dependencies;
     // 重新复写pubspec.yaml文件
     writeYaml(yaml, pubFile);
+    return true;
   }
 
   /// 重新复写pubspec.yaml文件
