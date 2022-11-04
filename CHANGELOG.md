@@ -1,3 +1,11 @@
+# 0.0.4
+
+* Support flutter component source code management through a pair of commands：
+
+  `power_command source build` 
+
+  `power_command source restore`
+
 # 0.0.3
 
 * support run a script

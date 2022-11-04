@@ -26,19 +26,19 @@ Standard usage is as follows:
 power_command <command> [arguments]
 ```
 
-Run flutter commands as flollows: 
+Run flutter commands as follows: 
 
 ```
 power_command clean
 ```
 
-Run built-in commands as flollows: 
+Run built-in commands as follows: 
 
 ```
 power_command delete a.txt
 ```
 
-Run custom commands as flollows: 
+Run custom commands as follows: 
 
 ```
 power_command custom ~/currentActivity.sh
@@ -47,6 +47,32 @@ power_command custom ~/currentActivity.sh
 ```
 power_command custom flutter pub get
 ```
+
+You can also manage flutter component source code as follows：
+
+1. Configure the source path In the `pubspec.yaml` of the main project, such as:
+
+   ```
+   source_config:
+     # Loop to check whether each unique element depends on global, if it depends, ignore the active attribute of unique, 
+     # the unique element directly becomes the source code to be depended on by the main project, and the unique element also depends on the global source code
+     global:
+       bangmai_module_base:
+         active: true
+         path: ../bangmai_module_base
+     # Check whether the active of the unique element is activated, if it is activated, it depends on the source code
+     unique:
+       bangmai_module_workbench:
+         active: false
+         path: module/bangmai_module_workbench
+       bangmai_module_mine:
+         active: false
+         path: module/bangmai_module_mine
+   ```
+
+2. Run `power_command source build` to build source dependencies , Then do what you want in the source code project.
+
+3. Run `power_command source restore` to reset all yaml file configuration.
 
 Note: 
 
