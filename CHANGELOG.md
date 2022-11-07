@@ -1,3 +1,7 @@
+# 0.0.5+1
+
+* Update documentation
+
 # 0.0.5
 
 * Support the function of automatically git clone flutter component source code to `path`  by `git` configuring

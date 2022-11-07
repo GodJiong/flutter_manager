@@ -1,6 +1,6 @@
 name: power_command
 description: A useful command line tool for Dart, which supports clean, pub get, pure etc.
-version: 0.0.5
+version: 0.0.5+1
 homepage: https://github.com/GodJiong/command
 executables:
   power_command:
