@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 import 'package:yaml_writer/yaml_writer.dart';
 
@@ -58,8 +58,8 @@ class BuildCommand extends BaseCommand {
 
   @override
   Future<void> run([String? commands]) async {
-    final snapshotPath = getSnapshotPath(basenameWithoutExtension(current));
-    // 确保重复操作
+    final snapshotPath = getSnapshotPath(p.basenameWithoutExtension(p.current));
+    // 避免重复操作
     if (File(snapshotPath).existsSync()) {
       print("please run 'power_command source restore' first!!!");
       return super.run(commands);
@@ -92,10 +92,10 @@ class BuildCommand extends BaseCommand {
     Map unique = Map.of(originUnique);
 
     // 执行全局配置
-    buildGlobalYaml(global, unique, yaml);
+    await buildGlobalYaml(global, unique, yaml);
 
     // 执行单一配置
-    bool hasUniqueActive = buildUniqueYaml(yaml, unique, pubFile);
+    bool hasUniqueActive = await buildUniqueYaml(yaml, unique, pubFile);
 
     // 执行`power_command pure` 拉取最新的包依赖
     if (hasUniqueActive) {
@@ -106,7 +106,7 @@ class BuildCommand extends BaseCommand {
   }
 
   /// 执行全局配置
-  void buildGlobalYaml(Map? global, Map unique, Map parentYaml) {
+  buildGlobalYaml(Map? global, Map unique, Map parentYaml) async {
     if (global == null || global.isEmpty) {
       return;
     }
@@ -117,10 +117,23 @@ class BuildCommand extends BaseCommand {
       if (path == null) {
         continue;
       }
-      // pubspec.yaml不存在则直接跳过，开始下一轮循环
-      final pubFile = File(join(path, 'pubspec.yaml'));
+      // 检查unique源码工程是否存在，不存在自动下载
+      final pubFile = File(p.join(path, 'pubspec.yaml'));
       if (!pubFile.existsSync()) {
-        continue;
+        // 支持自动化git clone unique
+        // git 地址
+        final url = unique[key]["git"]?["url"];
+        // git 分支
+        final ref = unique[key]?["git"]?["ref"] ?? "master";
+        if (url == null) {
+          continue;
+        }
+        // 自动化git clone
+        await gitClone(url, path, ref);
+        // 再次验证是否存在
+        if (!pubFile.existsSync()) {
+          continue;
+        }
       }
       // 读取pubspec.yaml文件找到dependencies并遍历
       String yamlText = pubFile.readAsStringSync();
@@ -130,8 +143,31 @@ class BuildCommand extends BaseCommand {
       bool hasGlobalActive = false;
       for (var key in dependencies.keys) {
         if (global.containsKey(key) && global[key]?["active"] == true) {
+          final globalPath = global[key]?["path"];
+          // path 未配置则直接跳过，开始下一轮循环
+          if (globalPath == null) {
+            continue;
+          }
+          // 检查global源码工程是否存在，不存在自动下载
+          final pubFile = File(p.join(globalPath, 'pubspec.yaml'));
+          if (!pubFile.existsSync()) {
+            // 支持自动化git clone global
+            // git 地址
+            final url = global[key]["git"]?["url"];
+            // git 分支
+            final ref = global[key]?["git"]?["ref"] ?? "master";
+            if (url == null) {
+              continue;
+            }
+            // 自动化git clone
+            await gitClone(url, globalPath, ref);
+            // 再次验证是否存在
+            if (!pubFile.existsSync()) {
+              continue;
+            }
+          }
           // 修改依赖方式
-          dependencies[key] = {"path": global[key]?["path"]};
+          dependencies[key] = {"path": p.relative(globalPath, from: path)};
           hasGlobalActive = true;
         }
       }
@@ -140,7 +176,7 @@ class BuildCommand extends BaseCommand {
         continue;
       }
       // 为每一个源码项目原pubspec.yaml保存一个snapshot快照
-      final snapshotPath = getSnapshotPath(basenameWithoutExtension(path));
+      final snapshotPath = getSnapshotPath(p.basenameWithoutExtension(path));
       pubFile.copySync(snapshotPath);
       // 更新dependencies内容并写到pubspec.yaml
       yaml["dependencies"] = dependencies;
@@ -158,20 +194,40 @@ class BuildCommand extends BaseCommand {
   }
 
   /// 执行单一配置
-  bool buildUniqueYaml(Map yaml, Map unique, File pubFile) {
+  Future<bool> buildUniqueYaml(Map yaml, Map unique, File pubFile) async {
     // loadYaml()加载返回的子集也是 unmodifiable Map
     Map dependencies = Map.of(yaml['dependencies']);
     // 标记当前module是否用到了激活的unique配置
     bool hasUniqueActive = false;
-    unique.forEach((key, value) {
-      final active = value?["active"];
-      final path = value?["path"];
-      if (active == true && path != null) {
-        // 修改依赖方式
-        dependencies[key] = {"path": path};
-        hasUniqueActive = true;
+    for (var key in unique.keys) {
+      final active = unique[key]?["active"];
+      final path = unique[key]?["path"];
+      // 未激活或者path未配置则直接跳过，开始下一轮循环
+      if (active != true || path == null) {
+        continue;
       }
-    });
+      // 检查unique源码工程是否存在，不存在自动下载
+      final pubFile = File(p.join(path, 'pubspec.yaml'));
+      if (!pubFile.existsSync()) {
+        // 支持自动化git clone unique
+        // git地址
+        final url = unique[key]?["git"]?["url"];
+        // git 分支
+        final ref = unique[key]?["git"]?["ref"] ?? "master";
+        if (url == null) {
+          continue;
+        }
+        // 自动化git clone
+        await gitClone(url, path, ref);
+        // 再次验证是否存在
+        if (!pubFile.existsSync()) {
+          continue;
+        }
+      }
+      // 修改依赖方式
+      dependencies[key] = {"path": path};
+      hasUniqueActive = true;
+    }
 
     // 不存在dependencies变化则退出
     if (!hasUniqueActive) {
@@ -190,6 +246,13 @@ class BuildCommand extends BaseCommand {
     // 转化为yaml格式字符串
     var yamlDoc = yamlWriter.write(yaml);
     pubFile.writeAsString(yamlDoc);
+  }
+
+  /// 自动化git clone
+  gitClone(String url, String path, String ref) async {
+    // git 命令
+    final git = " git clone $url $path -b $ref";
+    await CustomCommand().run(git);
   }
 }
 
@@ -225,7 +288,7 @@ class RestoreCommand extends BaseCommand {
 
   /// 恢复unique配置的的pubspec.yaml
   void restoreUniqueYaml() {
-    final snapshotPath = getSnapshotPath(basenameWithoutExtension(current));
+    final snapshotPath = getSnapshotPath(p.basenameWithoutExtension(p.current));
     File snapshotFile = File(snapshotPath);
     if (snapshotFile.existsSync()) {
       snapshotFile.copySync("pubspec.yaml");
@@ -253,10 +316,10 @@ class RestoreCommand extends BaseCommand {
       if (path == null) {
         continue;
       }
-      final snapshotPath = getSnapshotPath(basenameWithoutExtension(path));
+      final snapshotPath = getSnapshotPath(p.basenameWithoutExtension(path));
       File snapshotFile = File(snapshotPath);
       if (snapshotFile.existsSync()) {
-        snapshotFile.copySync(join(path, 'pubspec.yaml'));
+        snapshotFile.copySync(p.join(path, 'pubspec.yaml'));
         snapshotFile.deleteSync();
       }
     }
@@ -266,5 +329,5 @@ class RestoreCommand extends BaseCommand {
 
 /// 生成snapshot文件路径
 String getSnapshotPath(String name) {
-  return join(Directory.systemTemp.path, "${name}_snapshot.yaml");
+  return p.join(Directory.systemTemp.path, "${name}_snapshot.yaml");
 }
