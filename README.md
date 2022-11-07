@@ -58,21 +58,31 @@ You can also manage flutter component source code as follows：
      # the unique element directly becomes the source code to be depended on by the main project, and the unique element also depends on the global source code
      global:
        bangmai_module_base:
-         active: true
-         path: ../bangmai_module_base
+         active: false
+         path: module/bangmai_module_base
+         # Automatically clone the source code from the git configuration to the above path
+         git:
+           url: 'git@xxx.git'
+           ref: 'dev'
      # Check whether the active of the unique element is activated, if it is activated, it depends on the source code
      unique:
        bangmai_module_workbench:
          active: false
          path: module/bangmai_module_workbench
+         git:
+           url: 'git@xxx.git'
+           ref: 'dev'
        bangmai_module_mine:
          active: false
          path: module/bangmai_module_mine
+         git:
+           url: 'git@xxx.git'
+           ref: 'dev'
    ```
 
 2. Run `power_command source build` to build source dependencies , Then do what you want in the source code project.
 
-3. Run `power_command source restore` to reset all yaml file configuration.
+3. Because the tool will temporarily store a snapshot, after all the functions are developed, don't forget to run  `power_command source restore` to reset all yaml file configuration.
 
 Note: 
 

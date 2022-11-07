@@ -1,3 +1,16 @@
+# 0.0.5
+
+* Support the function of automatically git clone flutter component source code to `path`  by `git` configuring
+
+  ```
+  bangmai_module_base:
+    active: false
+    path: module/bangmai_module_base
+    git:
+      url: 'git@xxx.git'
+      ref: 'dev'
+  ```
+
 # 0.0.4
 
 * Support flutter component source code management through a pair of commands：
