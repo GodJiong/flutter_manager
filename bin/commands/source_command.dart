@@ -71,7 +71,6 @@ class BuildCommand extends BaseCommand {
       print("no pubspec.yaml!!!");
       return super.run(commands);
     }
-    pubFile.copySync(snapshotPath);
 
     // 读取pubspec.yaml文件转化内容为map
     String yamlText = pubFile.readAsStringSync();
@@ -95,7 +94,8 @@ class BuildCommand extends BaseCommand {
     await buildGlobalYaml(global, unique, yaml);
 
     // 执行单一配置
-    bool hasUniqueActive = await buildUniqueYaml(yaml, unique, pubFile);
+    bool hasUniqueActive =
+        await buildUniqueYaml(yaml, unique, pubFile, snapshotPath);
 
     // 执行`power_command pure` 拉取最新的包依赖
     if (hasUniqueActive) {
@@ -194,7 +194,8 @@ class BuildCommand extends BaseCommand {
   }
 
   /// 执行单一配置
-  Future<bool> buildUniqueYaml(Map yaml, Map unique, File pubFile) async {
+  Future<bool> buildUniqueYaml(
+      Map yaml, Map unique, File pubFile, String snapshotPath) async {
     // loadYaml()加载返回的子集也是 unmodifiable Map
     Map dependencies = Map.of(yaml['dependencies']);
     // 标记当前module是否用到了激活的unique配置
@@ -233,6 +234,8 @@ class BuildCommand extends BaseCommand {
     if (!hasUniqueActive) {
       return false;
     }
+    // 为当前工程pubspec.yaml保存一个snapshot快照
+    pubFile.copySync(snapshotPath);
     // 更新dependencies节点
     yaml["dependencies"] = dependencies;
     // 重新复写pubspec.yaml文件
