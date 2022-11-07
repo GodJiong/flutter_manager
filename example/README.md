@@ -1,0 +1,1 @@
+`power_command <command> [arguments]`

@@ -17,7 +17,7 @@ class DeleteCommand extends BaseCommand {
   static late final DeleteCommand _instance = DeleteCommand._internal();
 
   // default file path
-  static String _DEFAULT_PATH = "pubspec.lock";
+  static String _defaultPath = "pubspec.lock";
 
   @override
   String get description => "run delete file, the default is pubspec.lock";
@@ -37,7 +37,7 @@ class DeleteCommand extends BaseCommand {
         _delete(path);
       });
     } else {
-      final path = commands ?? _DEFAULT_PATH;
+      final path = commands ?? _defaultPath;
       print("========$name $path===============");
       _delete(path);
     }
