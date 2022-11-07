@@ -13,10 +13,10 @@ class FormatCommand extends BaseCommand {
 
   static late final FormatCommand _instance = FormatCommand._internal();
 
-  final String _DEFAULT_COMMAND = "flutter format .";
+  final String _defaultCommand = "flutter format .";
 
   @override
-  String get description => "run $_DEFAULT_COMMAND";
+  String get description => "run $_defaultCommand";
 
   @override
   String get name => "format";
@@ -26,6 +26,6 @@ class FormatCommand extends BaseCommand {
 
   @override
   Future<void> run([String? commands]) {
-    return super.run(commands ?? _DEFAULT_COMMAND);
+    return super.run(commands ?? _defaultCommand);
   }
 }
