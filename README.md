@@ -1,4 +1,4 @@
-A useful command line tool for Dart, which support common flutter commands, built-in commands and custom command etc.
+A useful command line tool for Dart, which support flutter component management, built-in commands and custom command etc.
 
 ## Requirements
 
@@ -26,29 +26,9 @@ Standard usage is as follows:
 power_command <command> [arguments]
 ```
 
-Run flutter commands as follows: 
+### Main
 
-```
-power_command clean
-```
-
-Run built-in commands as follows: 
-
-```
-power_command delete a.txt
-```
-
-Run custom commands as follows: 
-
-```
-power_command custom ~/currentActivity.sh
-```
-
-```
-power_command custom flutter pub get
-```
-
-You can also manage flutter component source code as follows：
+You can manage flutter component source code as follows：
 
 1. Configure the source path In the `pubspec.yaml` of the main project, such as:
 
@@ -84,6 +64,31 @@ You can also manage flutter component source code as follows：
 
 3. Because the tool will temporarily store a snapshot, after all the functions are developed, don't forget to run  `power_command source restore` to reset all yaml file configuration.
 
+### Others
+
+Run flutter commands as follows: 
+
+```
+power_command clean
+```
+
+Run built-in commands as follows: 
+
+```
+power_command delete a.txt
+```
+
+Run custom commands as follows: 
+
+```
+power_command custom ~/currentActivity.sh
+```
+
+```
+power_command custom flutter pub get
+```
+
+
 Note: 
 
 Each command has an abbreviation, usually the first character of the command.
@@ -101,6 +106,7 @@ Available commands:
   format   run flutter format .
   pub      run flutter pub get (note: this is a parent command)
   pure     run delete,clean and pub get in order
+  source   run source depended
 
 Run "power_command help <command>" for more information about a command.
 
