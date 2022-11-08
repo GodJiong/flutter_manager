@@ -1,5 +1,5 @@
 name: power_command
-description: A useful command line tool for Dart, which supports clean, pub get, pure etc.
+description: A useful command line tool for Dart, which support flutter component management, built-in commands and custom command etc.
 version: 0.0.5+1
 homepage: https://github.com/GodJiong/command
 executables:
