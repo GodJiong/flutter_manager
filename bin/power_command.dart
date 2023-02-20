@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 
 import 'commands/export_command.dart';
+import 'commands/init_command.dart';
 
 /// FileName power_command
 ///
@@ -19,6 +20,7 @@ void main(List<String> args) async {
         ..addCommand(DeleteCommand())
         ..addCommand(CleanCommand())
         ..addCommand(PubGetCommand())
+        ..addCommand(InitCommand())
         ..addCommand(PureCommand());
   await runner.run(args).catchError((error) {
     if (error is! UsageException) throw error;

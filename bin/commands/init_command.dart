@@ -7,12 +7,12 @@ import 'package:yaml_writer/yaml_writer.dart';
 
 import 'export_command.dart';
 
-/// FileName source_command
+/// FileName init_command
 ///
-/// @Author wangjiong
+/// @Author hxin
 /// @Date 2022/10/31
 ///
-/// @Description: SourceCommand command
+/// @Description: InitCommand command
 
 class InitCommand extends BaseCommand {
 
@@ -144,7 +144,7 @@ class DependCommand extends BaseCommand {
       } else {
         // 开始递归向上查找依赖当前 module e 的 module 进行修改
 
-        await recursionModifyToLocal(map_project_pubspec,map_config_dependencies_mode,e,
+        await recursionUpModify(map_project_pubspec,map_config_dependencies_mode,e,
             map_dependencies_all, str_clone_path, map_clone_git);
         print("===recursionModifyToLocal方法执行成功${e?.key?.toString()} 组件的配置 ");
 
@@ -300,12 +300,12 @@ class DependCommand extends BaseCommand {
    * 1、递归找出需要clone的组件clone
    * 2、将config_env.yaml中dependencies_all部分的配置copy到相应的module中的yaml中
    */
-  recursionModifyToLocal(Map map_project_pubspec,Map map_config_dependencies_mode,
+  recursionUpModify(Map map_project_pubspec,Map map_config_dependencies_mode,
       MapEntry? e,Map? map_dependencies_all,String str_clone_path,Map? map_clone_git) async {
 
-    print("===进入recursionModifyToLocal方法，当前module是${e?.key?.toString()}");
+    print("===进入recursionUpModify方法，当前module是${e?.key?.toString()}");
     if (e == null) {
-      print("===退出recursionModifyToLocal方法");
+      print("===退出recursionUpModify方法");
       return Future.value();
     }
 
@@ -350,7 +350,7 @@ class DependCommand extends BaseCommand {
         }
         // e 本地存在
         // 开始copy配置信息到module en
-        print("===recursionAndModify===开始copy配置信息到各module...");
+        print("===recursionUpModify===开始copy配置信息到各module...");
         String str_pubspec = pubFile.readAsStringSync();
         Map map_pubspec_old = Map.of(loadYaml(str_pubspec));
         Map map_pubspec_dependencies_old = Map.of(map_pubspec_old['dependencies']);
@@ -395,7 +395,7 @@ class DependCommand extends BaseCommand {
         // 刷新en在壳子工程依赖模式
         map_project_dependencies?[en.key] = {"path": mDir};
         map_project_pubspec?['dependencies'] = map_project_dependencies;
-        print("===recursionAndModify===module"+en.key+"刷新配置完成");
+        print("===recursionUpModify===module"+en.key+"刷新配置完成");
 
 
       } else {
@@ -404,10 +404,10 @@ class DependCommand extends BaseCommand {
     }
 
     // 继续向上查找
-    print("===调用recursionModifyToLocal继续向上查找依赖${entry?.key?.toString()}的组件");
-    recursionModifyToLocal(map_project_pubspec,map_config_dependencies_mode, entry,
+    print("===调用recursionUpModify继续向上查找依赖${entry?.key?.toString()}的组件");
+    recursionUpModify(map_project_pubspec,map_config_dependencies_mode, entry,
         map_dependencies_all, str_clone_path, map_clone_git);
-    print("===退出recursionModifyToLocal方法");
+    print("===退出recursionUpModify方法");
     return;
   }
 
