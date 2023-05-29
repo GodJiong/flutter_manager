@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:power_command/config.dart';
 
 import 'commands/export_command.dart';
 
@@ -11,15 +12,17 @@ import 'commands/export_command.dart';
 ///
 /// @Description: main entrance
 void main(List<String> args) async {
-  final runner =
-      CommandRunner('power_command', 'A useful command line tool for Dart')
-        ..addCommand(FormatCommand())
-        ..addCommand(SourceCommand())
-        ..addCommand(CustomCommand())
-        ..addCommand(DeleteCommand())
-        ..addCommand(CleanCommand())
-        ..addCommand(PubGetCommand())
-        ..addCommand(PureCommand());
+  // 统一初始化项目配置
+  Config()..initPrint(enable: false);
+  // 配置命令
+  final runner = CommandRunner('power_command', 'A useful command line tool for Dart')
+    ..addCommand(FormatCommand())
+    ..addCommand(CustomCommand())
+    ..addCommand(DeleteCommand())
+    ..addCommand(CleanCommand())
+    ..addCommand(PubGetCommand())
+    ..addCommand(MVMCommand())
+    ..addCommand(PureCommand());
   await runner.run(args).catchError((error) {
     if (error is! UsageException) throw error;
     print(error);
