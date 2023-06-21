@@ -1,4 +1,4 @@
-[中文文档](https://github.com/GodJiong/flutter_manager/blob/1.0/README_CN.md)
+[中文文档](https://github.com/GodJiong/flutter_manager/blob/master/README_CN.md)
 
 
 A useful command line tool for Flutter, which support Flutter component management, built-in commands and custom command etc.（一个实用的Flutter命令行工具，支持Flutter组件管理、内置命令和自定义命令等）

@@ -1,3 +1,7 @@
+# 1.0.1+1
+
+* Update Chinese document address
+
 # 1.0.1
 
 * The previous [power_command](https://pub.dev/packages/power_command) is no longer maintained, and new [flutter_manager](https://pub.dev/packages/flutter_manager) are welcome
