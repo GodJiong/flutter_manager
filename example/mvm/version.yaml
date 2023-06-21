@@ -1,0 +1,12 @@
+version:
+  # flutter sdk
+  flutter:
+    sdk: flutter
+  # 第三方组件
+  dio: 4.0.6
+  event_bus: 2.0.0
+  flutter_boost: git
+  # 自己的组件
+  module_a: path
+  module_b: path
+  module_base: path

@@ -1,0 +1,19 @@
+name: example
+description: A new Flutter project.
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies: 
+  flutter:
+    sdk: flutter
+  module_a: 
+    path: module/module_a
+  module_b: 
+    path: module/module_b
+
+flutter:
+  module:
+    androidX: true
+    androidPackage: com.example.example
+    iosBundleIdentifier: com.example.example

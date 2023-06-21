@@ -1,0 +1,22 @@
+path: module
+git:
+  module_a:
+    git:
+      url: ""
+      ref: ""
+
+  module_b:
+    git:
+      url: ""
+      ref: ""
+
+  module_base:
+    git:
+      url: ""
+      ref: ""
+
+  flutter_boost:
+    thirdParty: true
+    git:
+      url: 'https://github.com/alibaba/flutter_boost.git'
+      ref: '4.2.1'

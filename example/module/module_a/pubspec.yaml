@@ -1,0 +1,12 @@
+name: module_a
+description: A new Flutter project.
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies: 
+  flutter:
+    sdk: flutter
+  module_base: 
+    path: ../module_base
+  dio: 4.0.6

@@ -1,0 +1,12 @@
+name: module_b
+description: A new Flutter package.
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies: 
+  module_base: 
+    path: ../module_base
+  event_bus: 2.0.0
+  flutter:
+    sdk: flutter

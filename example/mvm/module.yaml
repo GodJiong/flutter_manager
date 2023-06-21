@@ -1,0 +1,23 @@
+# 宿主工程
+example:
+  dependencies:
+    - flutter # 由于会把整个pubspec.yaml中的dependencies结点覆盖，所以flutter也需要配上，不然无法使用flutter sdk
+    - module_a
+    - module_b
+
+module_a:
+  dependencies:
+    - flutter
+    - module_base
+    - dio
+
+module_b:
+  dependencies:
+    - module_base
+    - event_bus
+    - flutter
+
+module_base:
+  dependencies:
+    - flutter
+    - flutter_boost
