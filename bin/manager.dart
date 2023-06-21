@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:power_command/config.dart';
+import 'package:flutter_manager/config.dart';
 
 import 'commands/export_command.dart';
 
-/// FileName power_command
+/// FileName manager
 ///
 /// @Author wangjiong
 /// @Date 2022/10/17
@@ -15,7 +15,7 @@ void main(List<String> args) async {
   // 统一初始化项目配置
   Config()..initPrint(enable: false);
   // 配置命令
-  final runner = CommandRunner('power_command', 'A useful command line tool for Dart')
+  final runner = CommandRunner('manager', 'A useful command line tool for Flutter')
     ..addCommand(FormatCommand())
     ..addCommand(CustomCommand())
     ..addCommand(DeleteCommand())

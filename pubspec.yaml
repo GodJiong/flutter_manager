@@ -1,9 +1,9 @@
-name: power_command
-description: A useful command line tool for Dart, which support flutter component management, built-in commands and custom command etc.
+name: flutter_manager
+description: A useful command line tool for Flutter, which support flutter component management, built-in commands and custom command etc.（一个实用的Flutter命令行工具，支持 flutter 组件管理、内置命令和自定义命令等）
 version: 1.0.0
-homepage: https://github.com/GodJiong/command
+homepage: https://github.com/GodJiong/flutter_manager
 executables:
-  power_command:
+  manager:
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

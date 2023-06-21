@@ -1,1 +1,1 @@
-`power_command <command> [arguments]`
+`manager <command> [arguments]`

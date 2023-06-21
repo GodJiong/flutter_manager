@@ -39,7 +39,7 @@ class ModuleInitConfig {
   /// 初始化delegate配置模板
   initDelegateTemplate(File delegateFile) {
     final delegateTemplate = {
-      "path": "commonLocalPath",
+      "path": "commonLocalRootPath",
       "git": {
         "yourModuleName": {
           "git": {"url": "", "ref": ""}

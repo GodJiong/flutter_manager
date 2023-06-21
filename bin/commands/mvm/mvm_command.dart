@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:power_command/util/print.dart';
+import 'package:flutter_manager/util/print.dart';
 import 'package:yaml/yaml.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 

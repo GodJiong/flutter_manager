@@ -1,4 +1,4 @@
-import 'package:power_command/util/print.dart';
+import 'package:flutter_manager/util/print.dart';
 
 /// FileName config
 ///
