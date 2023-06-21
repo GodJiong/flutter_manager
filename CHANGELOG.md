@@ -1,3 +1,7 @@
+# 0.0.5+2
+
+* The previous [power_command](https://pub.dev/packages/power_command) is discontinued, and new [flutter_manager](https://pub.dev/packages/flutter_manager) are welcome
+
 # 0.0.5+1
 
 * Update documentation
