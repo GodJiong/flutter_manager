@@ -115,7 +115,11 @@ class MVMCommand extends BaseCommand {
               break;
             case PATH:
               // 设置对应的源码地址
-              updateDependencies[dependency] = {PATH: "../$delegatePath/$dependency"};
+              String currentChildModuleLocalPath = "../$dependency";
+              if (currentModuleName == projectName) {
+                currentChildModuleLocalPath = "$delegatePath/$dependency";
+              }
+              updateDependencies[dependency] = {PATH: currentChildModuleLocalPath};
               break;
             case null:
               throw Exception("$dependency未在version.yaml文件中注册");
@@ -156,7 +160,12 @@ class MVMCommand extends BaseCommand {
               break;
             // 切换源码模式
             case PATH:
-              value = {PATH: "../$delegatePath/$childModule"};
+              // 当前子module源码位置
+              String currentChildModuleLocalPath = "../$childModule";
+              if (parentModule == projectName) {
+                currentChildModuleLocalPath = "$delegatePath/$childModule";
+              }
+              value = {PATH: currentChildModuleLocalPath};
               break;
             default:
               throw Exception("暂不支持$delegate模式");
