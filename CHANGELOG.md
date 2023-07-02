@@ -1,3 +1,8 @@
+# 1.0.3
+
+* 【feat】When you update a library dependency, the granularity of operations is reduced from dependency to specific library node
+* 【feat】Removes management of the Flutter SDK, allowing users to care only about their own business dependencies
+
 # 1.0.2
 
 * 【feat】Add example code

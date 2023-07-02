@@ -17,6 +17,12 @@ const PATH_MVM_VERSION = "$PATH_ROOT_MVM/version.yaml";
 /// delegate配置文件路径
 const PATH_MVM_DELEGATE = "$PATH_ROOT_MVM/delegate.yaml";
 
+/// snapshot快照文件夹路径
+const PATH_MVM_SNAPSHOT = "$PATH_ROOT_MVM/.snapshot";
+
+/// module快照文件路径
+const PATH_MVM_SNAPSHOT_MODULE = "$PATH_MVM_SNAPSHOT/module.yaml";
+
 /// 业务方pubspec.yaml路径
 const PATH_PUBSPEC = "pubspec.yaml";
 
