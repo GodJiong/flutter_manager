@@ -82,6 +82,20 @@ When the `Execution succeed` log keyword appears on the console, it means that t
 which may be different from the dependencies you configured in version.yaml, because flutter requires a certain The actual dependencies of all paths from components to host projects must be consistent. 
 But you only need to pay attention to version.yaml, the log only indicates that there is a better dependency configuration.
 
+**The biggest advantage of this library is:**
+
+1. Low cost of use. Since it is a command-line tool, you only need to execute 'Manager MVM' once when adding or deleting dependent libraries or updating the library version number
+
+2. Low cost of retrofit. The original componentization solution hardly needs to be moved, just configure the project structure and dependencies in the 'mvm' configuration folder, and the tool will automatically identify and manage it
+
+3. Users do not need to manually add or delete dependent libraries or update the version number to the submodule, just modify it in the unified configuration file 'mvm', and the tool will automatically locate and update under the correct module. Especially when switching between git and path dependencies, there is no need to repeat the tedious search process
+
+4. The dependencies of each module on the third-party library are independent of each other, so a unified underlying module is not necessary, and it is truly 'componentized'
+
+5. The management of the version number of the dependent library by the configuration file 'version.yaml' is shared by the entire project, that is, each submodule uses a unified version of the third-party library to avoid version conflicts
+
+You can run the 'example' sample experience.
+
 ### Other functions
 
 Run flutter commands，such as `clean`

@@ -35,11 +35,12 @@ class MVMCommand extends BaseCommand {
 
   @override
   Future<void> run([String? commands]) async {
-    // 定义四个后面会用到的文件
+    // 定义五个后面会用到的文件
     final projectPubFile = new File(PATH_PUBSPEC);
     final moduleFile = new File(PATH_MVM_MODULE);
     final versionFile = new File(PATH_MVM_VERSION);
     final delegateFile = new File(PATH_MVM_DELEGATE);
+    final snapshotModuleFile = new File(PATH_MVM_SNAPSHOT_MODULE);
 
     // 检查根目录pubspec.yaml是否存在
     if (!projectPubFile.existsSync()) {
@@ -84,8 +85,16 @@ class MVMCommand extends BaseCommand {
     String delegatePath = delegateConfig[PATH];
     Map delegateGit = delegateConfig[GIT];
 
-    /// 以dependencies为根节点匹配组件版本
-    _matchAllModuleVersion() async {
+    // 解析module快照
+    Map snapshotModuleConfig = {};
+    bool snapshotModuleExists = snapshotModuleFile.existsSync();
+    if (snapshotModuleExists) {
+      String snapshotModuleText = snapshotModuleFile.readAsStringSync();
+      snapshotModuleConfig = loadYaml(snapshotModuleText);
+    }
+
+    /// 根据当前module配置更新模块
+    _updateBasedModuleFile() async {
       for (MapEntry e in moduleConfig.entries) {
         final currentModuleName = e.key;
         // 定义当前组件的pubspec文件，用于写入后续的库版本
@@ -102,8 +111,8 @@ class MVMCommand extends BaseCommand {
         // 进入yaml文件编辑模式
         String currentPubText = currentPubFile.readAsStringSync();
         final currentPubEditor = YamlEditor(currentPubText);
-        // 声明一个待更新的库集合
-        Map updateDependencies = Map();
+        // 区分不同依赖方式
+        Object? value;
         // 遍历当前组件的依赖库列表，匹配对应的版本号
         for (String dependency in e.value[DEPENDENCIES]) {
           // 依赖库依赖方式
@@ -111,7 +120,7 @@ class MVMCommand extends BaseCommand {
           switch (v) {
             case GIT:
               // 设置对应的git地址
-              updateDependencies[dependency] = {GIT: delegateGit[dependency]?[GIT]};
+              value = {GIT: delegateGit[dependency]?[GIT]};
               break;
             case PATH:
               // 设置对应的源码地址
@@ -119,20 +128,64 @@ class MVMCommand extends BaseCommand {
               if (currentModuleName == projectName) {
                 currentChildModuleLocalPath = "$delegatePath/$dependency";
               }
-              updateDependencies[dependency] = {PATH: currentChildModuleLocalPath};
+              value = {PATH: currentChildModuleLocalPath};
               break;
             case null:
               throw Exception("$dependency未在version.yaml文件中注册");
             // 带版本号的
             default:
-              updateDependencies[dependency] = v;
+              value = v;
           }
+          // 更新对应的结点（新增的三方库会追加到末尾）
+          currentPubEditor.update([DEPENDENCIES, dependency], value);
         }
-        // 一次性覆盖更新
-        currentPubEditor.update([DEPENDENCIES], updateDependencies);
         // 写入更新后的YAML文件
         var currentYamlString = currentPubEditor.toString();
         currentPubFile.writeAsStringSync(currentYamlString);
+      }
+    }
+
+    /// 当快照存在时，以快照为准移除当前版本不用的三方库
+    _removeBasedSnapshotFile() {
+      for (MapEntry e in snapshotModuleConfig.entries) {
+        final currentModuleName = e.key;
+        // 找到共有的业务组件
+        if (!moduleConfig.containsKey(currentModuleName)) {
+          continue;
+        }
+        // 定义当前组件的pubspec文件，用于写入后续的操作
+        final localPath = "$delegatePath/$currentModuleName";
+        File currentPubFile = File("$localPath/$PATH_PUBSPEC");
+        // 宿主工程的pub路径不同
+        if (currentModuleName == projectName) {
+          currentPubFile = projectPubFile;
+        }
+        // 进入yaml文件编辑模式
+        String currentPubText = currentPubFile.readAsStringSync();
+        final currentPubEditor = YamlEditor(currentPubText);
+        // 遍历业务组件所依赖的三方库列表
+        for (String dependency in e.value[DEPENDENCIES]) {
+          // 找到快照有而当前版本没有的三方库
+          List currentDependencies = moduleConfig[currentModuleName][DEPENDENCIES];
+          if (currentDependencies.contains(dependency)) {
+            continue;
+          }
+          // 移除不用的三方库
+          currentPubEditor.remove([DEPENDENCIES, dependency]);
+        }
+        // 写入更新后的YAML文件
+        var currentYamlString = currentPubEditor.toString();
+        currentPubFile.writeAsStringSync(currentYamlString);
+      }
+    }
+
+    /// 匹配所有的组件版本
+    _matchAllModuleVersion() async {
+      // 1. 无论快照存不存在，都以当前版本为准正常遍历更新
+      _updateBasedModuleFile();
+      // 2. 当快照存在时，以快照为准移除当前版本不用的三方库
+      if (snapshotModuleExists) {
+        _removeBasedSnapshotFile();
       }
     }
 
@@ -214,10 +267,22 @@ class MVMCommand extends BaseCommand {
       _printRealModuleDependency(realModuleDependency);
     }
 
+    /**
+     * 更新Module快照
+     */
+    _updateModuleSnapshot() {
+      if (!snapshotModuleExists) {
+        snapshotModuleFile.createSync(recursive: true);
+      }
+      moduleFile.copySync(PATH_MVM_SNAPSHOT_MODULE);
+    }
+
     // 1. 匹配所有组件版本
-    _matchAllModuleVersion();
+    await _matchAllModuleVersion();
     // 2. 切换依赖方式
     _switchModuleDelegate();
+    // 3. 更新Module快照
+    _updateModuleSnapshot();
   }
 
   /// 生成项目根节点
