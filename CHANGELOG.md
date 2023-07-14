@@ -1,3 +1,8 @@
+# 1.0.4
+
+* 【bugFixed】Fixed a bug that failed to automatically create a local source folder based on `delegate.yaml`'s `path` tag
+* 【feat】Remove the `thirdParty` tag to automatically identify whether it is a third-party library
+
 # 1.0.3
 
 * 【feat】When you update a library dependency, the granularity of operations is reduced from dependency to specific library node

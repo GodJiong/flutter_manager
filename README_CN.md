@@ -62,7 +62,7 @@ version:
 
 #### delegate.yaml
 
-配置git和path依赖方式的实际地址（三方库的`git`需要标注`thirdParty: true`）
+配置git和path依赖方式的实际地址
 
 ```yaml
 # 所有组件的本地根路径
@@ -73,7 +73,6 @@ git:
       url: ""
       ref: ""
   thirdPartyLibraryName:
-    thirdParty: true
     git:
       url: ""
       ref: ""

@@ -248,9 +248,8 @@ class MVMCommand extends BaseCommand {
     /// 切换依赖方式
     _switchModuleDelegate() {
       // 找出所有version.yaml注册的非第三方项目组件
-      Map projectModule = Map.from(version)
-        ..removeWhere(
-            (key, value) => !(delegateGit[key] != null && delegateGit[key][THIRDPARTY] != true));
+      // module.yaml文件注册了所有的业务module，通过modules的key是否包含判断
+      Map projectModule = Map.from(version)..removeWhere((key, value) => !moduleConfig.containsKey(key));
       if (projectModule.isEmpty) {
         return;
       }
@@ -312,9 +311,9 @@ class MVMCommand extends BaseCommand {
     Map<Object, List> modules =
         moduleConfig.map((key, value) => MapEntry(key, List.of(value[DEPENDENCIES])));
     // 移除非业务组件childModule
+    // module.yaml文件注册了所有的业务module，通过modules的key是否包含此child判断
     modules.forEach((key, value) {
-      value.removeWhere(
-          (child) => !(delegateGit[child] != null && delegateGit[child][THIRDPARTY] != true));
+      value.removeWhere((child) => !modules.containsKey(child));
     });
 
     /// 递归构建子module列表

@@ -59,7 +59,7 @@ version:
 
 #### delegate.yaml
 
-Configure the actual address of git and path dependencies (`git` of the three-party library needs to be marked with `thirdParty: true`)
+Configure the actual address of git and path dependencies
 
 ```yaml
 # The local root path for all components
@@ -70,7 +70,6 @@ git:
       url: ""
       ref: ""
   thirdPartyLibraryName:
-    thirdParty: true
     git:
       url: ""
       ref: ""
