@@ -93,6 +93,14 @@ class MVMCommand extends BaseCommand {
       snapshotModuleConfig = loadYaml(snapshotModuleText);
     }
 
+    /// 初始化本地源码文件夹
+    _initLocalDelegatePathDir(String path) {
+      final pathDir = new Directory(path);
+      if (!pathDir.existsSync()) {
+        pathDir.createSync(recursive: true);
+      }
+    }
+
     /// 根据当前module配置更新模块
     _updateBasedModuleFile() async {
       for (MapEntry e in moduleConfig.entries) {
@@ -147,6 +155,9 @@ class MVMCommand extends BaseCommand {
 
     /// 当快照存在时，以快照为准移除当前版本不用的三方库
     _removeBasedSnapshotFile() {
+      if (!snapshotModuleExists) {
+        return;
+      }
       for (MapEntry e in snapshotModuleConfig.entries) {
         final currentModuleName = e.key;
         // 找到共有的业务组件
@@ -181,12 +192,12 @@ class MVMCommand extends BaseCommand {
 
     /// 匹配所有的组件版本
     _matchAllModuleVersion() async {
-      // 1. 无论快照存不存在，都以当前版本为准正常遍历更新
-      _updateBasedModuleFile();
-      // 2. 当快照存在时，以快照为准移除当前版本不用的三方库
-      if (snapshotModuleExists) {
-        _removeBasedSnapshotFile();
-      }
+      // 1. 初始化本地源码文件夹
+      _initLocalDelegatePathDir(delegatePath);
+      // 2. 无论快照存不存在，都以当前版本为准正常回溯更新
+      await _updateBasedModuleFile();
+      // 3. 当快照存在时，以快照为准移除当前版本不用的三方库
+      _removeBasedSnapshotFile();
     }
 
     /// 更新依赖方式
