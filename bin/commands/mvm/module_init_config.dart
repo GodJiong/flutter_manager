@@ -45,7 +45,6 @@ class ModuleInitConfig {
           "git": {"url": "", "ref": ""}
         },
         "thirdPartyLibraryName": {
-          "thirdParty": true,
           "git": {"url": "", "ref": ""}
         }
       }

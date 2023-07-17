@@ -25,7 +25,7 @@ class MVMCommand extends BaseCommand {
   static late final MVMCommand _instance = MVMCommand._internal();
 
   @override
-  String get description => "flutter module version manager";
+  String get description => "flutter module manager";
 
   @override
   String get name => "mvm";
@@ -287,12 +287,33 @@ class MVMCommand extends BaseCommand {
       moduleFile.copySync(PATH_MVM_SNAPSHOT_MODULE);
     }
 
+    /// 更新组件分支
+    _updateModuleBranch() async {
+      // 找到需要本地管理的path组件
+      Map pathModules = Map.from(version)..removeWhere((key, value) => value != PATH);
+      print("--------------------------------------------------------------------");
+      if (pathModules.isEmpty) {
+        return;
+      }
+      for (MapEntry e in pathModules.entries) {
+        final module = e.key;
+        final modulePath = "$delegatePath/$module";
+        final url = delegateGit[module][GIT][URL];
+        final ref = delegateGit[module][GIT][REF];
+        await Git().checkout(module, url, ref, modulePath);
+      }
+      print("--------------------------------------------------------------------");
+    }
+
     // 1. 匹配所有组件版本
     await _matchAllModuleVersion();
     // 2. 切换依赖方式
     _switchModuleDelegate();
-    // 3. 更新Module快照
+    // 3. 更新组件分支
+    await _updateModuleBranch();
+    // 4. 更新Module快照
     _updateModuleSnapshot();
+    printRed("Execution succeed");
   }
 
   /// 生成项目根节点
@@ -343,8 +364,11 @@ class MVMCommand extends BaseCommand {
   _printRealModuleDependency(Map realProjectModule) {
     print("=====================RealModuleDependency=========================");
     realProjectModule.forEach((key, value) {
-      print("$key:$value");
+      if (value == PATH) {
+        printGreen("$key:$value");
+      } else {
+        print("$key:$value");
+      }
     });
-    print("---------------------Execution succeed----------------------------");
   }
 }

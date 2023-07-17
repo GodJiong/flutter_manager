@@ -47,6 +47,3 @@ const String REF = "ref";
 
 /// dependencies
 const String DEPENDENCIES = "dependencies";
-
-/// thirdParty
-const String THIRDPARTY = "thirdParty";

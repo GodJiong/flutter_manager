@@ -1,3 +1,5 @@
+import '../constant/constant_export.dart';
+
 /// FileName print
 ///
 /// @Author wangjiong
@@ -14,4 +16,19 @@ dPrint(Object? object) {
     return;
   }
   print(object);
+}
+
+/// 输出红色提示
+printRed(String msg) {
+  print("$console_red$msg$console_default");
+}
+
+/// 输出绿色提示
+printGreen(String msg) {
+  print("$console_green$msg$console_default");
+}
+
+/// 输出黄色提示
+printYellow(String msg) {
+  print("$console_yellow$msg$console_default");
 }
