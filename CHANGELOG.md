@@ -1,7 +1,11 @@
+# 1.0.5
+
+* 【feat】The local/remote branch of each component can be managed uniformly through the `ref` tag of the `delegate.yaml` configuration file
+
 # 1.0.4
 
 * 【bugFixed】Fixed a bug that failed to automatically create a local source folder based on `delegate.yaml`'s `path` tag
-* 【feat】Remove the `thirdParty` tag to automatically identify whether it is a third-party library
+* 【feat】Remove the `thirdParty` tag from the `delegate.yaml` file to automatically identify whether it is a third-party library
 
 # 1.0.3
 
